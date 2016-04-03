@@ -359,7 +359,6 @@ namespace VoxelShift.Engine.Rendering
             if (Cell.Density[5] > IsoLevel) CubeIndex |= 32;
             if (Cell.Density[6] > IsoLevel) CubeIndex |= 64;
             if (Cell.Density[7] > IsoLevel) CubeIndex |= 128;
-            //Console.WriteLine(CubeIndex +" - "+ EdgeTable[CubeIndex]);
             
             /* Cube is entirely in/out of the surface */
             if (EdgeTable[CubeIndex] == 0)
@@ -434,29 +433,23 @@ namespace VoxelShift.Engine.Rendering
         }
  
         private static MarchingData Build(MarchingData Data, int TriCount)
-        {
+        {	//Add all the indices and the vertices.
         	List<Vector3> Vertices = Data.VerticesArrays.ToList();
-        	List<Vector4> Colors = Data.Color.ToList();
         	List<uint> Indices = Data.Indices;
-            for (uint i = 0; i < TriCount; i++)
-            {
-            	Indices.Add( (uint) Vertices.Count + 0);
-            	Indices.Add( (uint) Vertices.Count + 1);
-            	Indices.Add( (uint) Vertices.Count + 2);
-            	
-            	Vertices.Add(Triangles[i].P[0]);
-            	Vertices.Add(Triangles[i].P[1]);
-            	Vertices.Add(Triangles[i].P[2]);
-            	
-            	Colors.Add(Utils.VariateColor(Data.TemplateColor, 5));
-            	Colors.Add(Utils.VariateColor(Data.TemplateColor, 5));
-            	Colors.Add(Utils.VariateColor(Data.TemplateColor, 5));
+            	for (uint i = 0; i < TriCount; i++)
+            	{	
+	            	Indices.Add( (uint) Vertices.Count + 0);
+	            	Indices.Add( (uint) Vertices.Count + 1);
+	            	Indices.Add( (uint) Vertices.Count + 2);
+	            	
+	            	Vertices.Add(Triangles[i].P[0]);
+	            	Vertices.Add(Triangles[i].P[1]);
+	            	Vertices.Add(Triangles[i].P[2]);
                 
-            }
-            Data.VerticesArrays = Vertices.ToArray();
-            Data.Indices = Indices;
-            Data.Color = Colors.ToArray();
-            return Data;
-        }
+	            }
+	            Data.VerticesArrays = Vertices.ToArray();
+	            Data.Indices = Indices;
+	            return Data;
+	}
 	}
 }
