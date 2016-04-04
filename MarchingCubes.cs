@@ -15,7 +15,7 @@ namespace VoxelShift.Engine.Rendering
 	/// <summary>
 	/// Description of MarchingCubes.
 	/// </summary>
-	public static class MarchingCubes
+	public static class MarchingCubes pero ke hace?
 	{
 		#region Tables
         static int[] EdgeTable = new int[256]{
