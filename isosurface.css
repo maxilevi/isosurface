@@ -1,0 +1,40 @@
+.ui{
+	position:absolute;
+	left:2.5%;
+}
+
+.march{
+	top:15%;
+}
+
+.shape{
+	top:25%;
+}
+
+.source{
+	font-size: 150px;
+	left:88%;
+	top:75%;
+	text-align: center;
+	padding-bottom: 5px; 
+	border-radius: 75px;
+	width:145px;
+	height:145px;
+	box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
+}
+
+a:active {
+    color: black;
+}
