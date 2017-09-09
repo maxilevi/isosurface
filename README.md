@@ -1,4 +1,4 @@
-# perlin
+# isosurface
 webGL demo for testing isosurface techniques and math surfaces
 
 ## live demo
