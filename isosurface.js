@@ -51,9 +51,9 @@ var rng = RandomInt(-80000, 80000);
       	else if (type == "Torus")
         	voxels[x][y][z] = 1.0-(Math.pow(10.0 - Math.sqrt(_x*_x + _y*_y), 2) + _z*_z - size);
         else if (type == "Hyperelliptic")
-        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.0 ) - (size-8));
+        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.0 ) - (size-4));
         else if (type == "Goursat's Surface")
-        	voxels[x][y][z] = 1.0-(Math.pow(_x,4) + Math.pow(_y,4) + Math.pow(_z,4) - size * (_x*_x  + _y*_y + _z*_z) * 10 + 1.0);
+        	voxels[x][y][z] = 1.0-(Math.pow(_x,4) + Math.pow(_y,4) + Math.pow(_z,4) - size * (_x*_x  + _y*_y + _z*_z) * 8 + 1.0);
         else if(type == "Eight Surface")
         	voxels[x][y][z] = 1.0-(2 * Math.pow(_z,4) + size*size * (_x*_x + _y*_y - 2 * _z*_z));
         else if(type == "Klein's Bottle")
@@ -115,7 +115,7 @@ function main() {
     varying lowp vec4 vColor;
 
     void main(void) {
-      gl_FragColor = vColor;
+      gl_FragColor = vec4( (vColor.xyz + vec3(1,1,1) ) * .5, 1);
     }
   `;
 
@@ -245,9 +245,9 @@ norms = result.normals;
 
   for (var j = 0; j < verts.length; j+=3) {
   var c = [ norms[j+0], norms[j+1], norms[j+2], 1.0]; 
-    colors.push(c[0]);
-    colors.push(c[1]);
-    colors.push(c[2]);
+    colors.push( (c[0] ) * 1);
+    colors.push( (c[1] ) * 1);
+    colors.push( (c[2] ) * 1);
     colors.push(c[3]);
   }
 
