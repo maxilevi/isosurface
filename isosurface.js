@@ -5,8 +5,7 @@ var mode;
 var buffers;
 var global_gl;
 
-var t0 = performance.now();
-noise.seed(Math.random());
+
 var voxels = [];
 for(x = 0; x < chunk_width; x++){
   voxels[x] = [];
@@ -25,6 +24,10 @@ function recreate(){
 	buffers = initBuffers(global_gl);
 }
 
+function lerp(F1, F2, T){
+	return (1-T)*F1 + T*F2;
+}
+
 function RandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -33,20 +36,20 @@ function RandomInt(min, max) {
 
 function heightmap(){
 var type = document.getElementById('Shape').value;
-var rng = RandomInt(-80000, 80000);
+//var rng = RandomInt(-80000, 80000);
 
   for(x = 0; x < chunk_width; x++){
     for(z = 0; z < chunk_depth; z++){
       var height = 0;
-	  if(type == "Terrain")
-      	height = Math.abs(noise.simplex2( (x+rng) * 0.025, (z+rng) * 0.025)) * (chunk_height-1);
+	  //if(type == "Terrain")
+      //	height = Math.abs(noise.simplex2( (x+rng) * 0.025, (z+rng) * 0.025)) * (chunk_height-1);
       for(y = 0; y < chunk_height; y++){
 
       	var offsetX = chunk_width * .5, offsetZ = chunk_depth * .5, offsetY = chunk_height * .5, size = 16;
       	var _y = y - offsetY, _x = x - offsetX, _z = z - offsetZ;
-      	if(type == "Terrain")
-      		voxels[x][y][z] = (height-y);
-      	else if (type == "Sphere")
+      	//if(type == "Terrain")
+      	//	voxels[x][y][z] = (height-y);
+      	if (type == "Sphere")
       		voxels[x][y][z] = 1.0-(Math.sqrt(_x*_x + _y*_y + _z*_z) - (size-4));
       	else if (type == "Torus")
         	voxels[x][y][z] = 1.0-(Math.pow(10.0 - Math.sqrt(_x*_x + _y*_y), 2) + _z*_z - size);
@@ -67,9 +70,6 @@ var rng = RandomInt(-80000, 80000);
 //http://mathworld.wolfram.com/GoursatsSurface.html
 //http://mathworld.wolfram.com/Ding-DongSurface.html
 
-var t1 = performance.now();
-
-console.log("noise took " + (t1 - t0) + " milliseconds.");
 
 main();
 
@@ -152,6 +152,15 @@ function main() {
     now *= 0.001;  // convert to seconds
     const deltaTime = now - then;
     then = now;
+	
+	velocityX = lerp(velocityX, 0, deltaTime * 6);
+	velocityY = lerp(velocityY, 0, deltaTime * 6);
+
+	var newRotationMatrix = mat4.create();
+	mat4.identity(newRotationMatrix);
+	mat4.rotate(newRotationMatrix, newRotationMatrix, degToRad( -(velocityX / 16) ), [0, 1, 0]);
+	mat4.rotate(newRotationMatrix, newRotationMatrix, degToRad(velocityY / 16), [1, 0, 0]);
+	mat4.multiply(mouseRotationMatrix, newRotationMatrix, mouseRotationMatrix);
 
     drawScene(gl, programInfo, buffers, deltaTime);
 
@@ -313,6 +322,7 @@ function handleMouseUp(event) {
 mouseDown = false;
 }
 
+var velocityX = 0, velocityY = 0;
 function handleMouseMove(event) {
 	if (!mouseDown) {
 	  return;
@@ -321,14 +331,9 @@ function handleMouseMove(event) {
 	var newY = event.clientY;
 
 	var deltaX = newX - lastMouseX;
-	var newRotationMatrix = mat4.create();
-	mat4.identity(newRotationMatrix);
-	mat4.rotate(newRotationMatrix, newRotationMatrix, degToRad( -(deltaX / 8) ), [0, 1, 0]);
-
 	var deltaY = newY - lastMouseY;
-	mat4.rotate(newRotationMatrix, newRotationMatrix, degToRad(deltaY / 8), [1, 0, 0]);
-
-	mat4.multiply(mouseRotationMatrix, newRotationMatrix, mouseRotationMatrix);
+	velocityX += deltaX;
+	velocityY += deltaY; 
 
 	lastMouseX = newX
 	lastMouseY = newY;

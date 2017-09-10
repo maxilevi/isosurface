@@ -5,10 +5,18 @@
 
 .march{
 	top:15%;
+	box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
 }
 
 .shape{
 	top:25%;
+	box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
+}
+
+.title{
+	text-align: center;
+	left:33%;
+	text-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
 }
 
 .source{
@@ -22,6 +30,7 @@
 	height:145px;
 	box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
 }
+
 
 a:link {
     color: black;

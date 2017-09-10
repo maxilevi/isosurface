@@ -1,4 +1,5 @@
-//Ported from hedra's C# code
+//Ported from my(Zaphyk) C# code
+//so this may be ugly
 
     const EdgeTable = 
         [0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
@@ -328,7 +329,7 @@
     }
         
     
-    function Process(IsoLevel, Cell, Data)
+    function MarchCube(IsoLevel, Cell, Data)
     {
         var TriNum = 0;
         TriNum = Polygonise(Cell, IsoLevel);
