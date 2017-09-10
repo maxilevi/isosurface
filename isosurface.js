@@ -54,7 +54,7 @@ var type = $('#shape').val();
       	else if (type == "Torus")
         	voxels[x][y][z] = 1.0-(Math.pow(10.0 - Math.sqrt(_x*_x + _y*_y), 2) + _z*_z - size);
         else if (type == "Hyperelliptic")
-        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.5 ) - (size-6));
+        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.75 ) - (size-6));
         else if (type == "Goursat's Surface")
         	voxels[x][y][z] = 1.0-(Math.pow(_x,4) + Math.pow(_y,4) + Math.pow(_z,4) - size * (_x*_x  + _y*_y + _z*_z) * 8 + 1.0);
         else if(type == "Eight Surface")
