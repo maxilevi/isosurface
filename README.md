@@ -8,5 +8,7 @@ webGL demo for testing isosurface techniques and math surfaces
 ## screenshots
 
 ![](img/shot0.png)
-![](img/shot1.png)
-![](img/shot2.png)
+
+## license
+
+(c) 2017 MIT License. Zaphyk
