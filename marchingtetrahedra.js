@@ -4,21 +4,21 @@
     
     function MarchTetrahedra(IsoLevel, Cell, Data)
     {
-        Build(Data, PolygoniseTri(Cell,IsoLevel,0,2,3,7));
-        Build(Data, PolygoniseTri(Cell,IsoLevel,0,2,6,7));
-        Build(Data, PolygoniseTri(Cell,IsoLevel,0,4,6,7));
-        Build(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,2));
-        Build(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,4));
-        Build(Data, PolygoniseTri(Cell,IsoLevel,5,6,1,4));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,3,7));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,2,7));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,4,6,7));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,2));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,1,6,4));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,5,6,1,4));
         return Data;
     }
     
     function PolygoniseTri(Cell,IsoLevel, v0,v1,v2,v3)
     {
        var TriIndex;
-       var Tri = new Triangle[2];
-       Tri[0] = new Triangle();
-       Tri[1] = new Triangle();
+       var Tri = [];
+       Tri.push(new Triangle());
+       Tri.push(new Triangle());
        /*
           Determine which of the 16 cases we have Celliven which vertices
           are above or below the IsoLevelsurface
@@ -100,63 +100,29 @@
         return Tri;
     }
 
-  	function VertexInterp(IsoLevel, p1, p2, valp1, valp2)
-    {
-        var mu = 0;
-        var p = [0,0,0];
-        
-        if (Math.abs(IsoLevel - valp1) < 0.00001)
-            return p1;
-        if (Math.abs(IsoLevel - valp2) < 0.00001)
-            return p2;
-        if (Math.abs(valp1 - valp2) < 0.00001)
-            return p1;
-        mu = (IsoLevel - valp1) / (valp2 - valp1);
 
-        p = [p1[0] + mu * (p2[0] - p1[0]), p1[1] + mu * (p2[1] - p1[1]), p1[2] + mu * (p2[2] - p1[2])];
-        
-        return p;
-    }
-
-   function cross(a, b) {
-  return [a[1] * b[2] - a[2] * b[1],
-          a[2] * b[0] - a[0] * b[2],
-          a[0] * b[1] - a[1] * b[0]];
-}
-
-    function normalize(v) {
-      var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-      // make sure we don't divide by 0.
-      if (length > 0.00001) {
-        return [v[0] / length, v[1] / length, v[2] / length];
-      } else {
-        return [1, 1, 1];
-      }
-    }
-
-    function subtractVectors(a, b) {
-  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-}
-
-    function Build(Data, Triangles)
+    function BuildHedra(Data, Tris)
     {	//Add all the indices and the vertices.
 
-        	for (i = 0; i < Triangles.length; i++)
+        	for (i = 0; i < Tris.length; i++)
         	{	
-            	
-            	Data.vertices.push(Triangles[i].P[2][0]);
-                Data.vertices.push(Triangles[i].P[2][1]);
-                Data.vertices.push(Triangles[i].P[2][2]);
+            	if(Tris[i].P[0][0] == 0 && Tris[i].P[0][1] == 0 && Tris[i].P[0][2] == 0 
+                && Tris[i].P[1][0] == 0 && Tris[i].P[1][1] == 0 && Tris[i].P[1][2] == 0
+                && Tris[i].P[2][0] == 0 && Tris[i].P[2][1] == 0 && Tris[i].P[2][2] == 0) continue;
 
-            	Data.vertices.push(Triangles[i].P[1][0]);
-                Data.vertices.push(Triangles[i].P[1][1]);
-                Data.vertices.push(Triangles[i].P[1][2]);
+            	Data.vertices.push(Tris[i].P[2][0]);
+                Data.vertices.push(Tris[i].P[2][1]);
+                Data.vertices.push(Tris[i].P[2][2]);
 
-            	Data.vertices.push(Triangles[i].P[0][0]);
-                Data.vertices.push(Triangles[i].P[0][1]);
-                Data.vertices.push(Triangles[i].P[0][2]);
+            	Data.vertices.push(Tris[i].P[1][0]);
+                Data.vertices.push(Tris[i].P[1][1]);
+                Data.vertices.push(Tris[i].P[1][2]);
+
+            	Data.vertices.push(Tris[i].P[0][0]);
+                Data.vertices.push(Tris[i].P[0][1]);
+                Data.vertices.push(Tris[i].P[0][2]);
                
-                var Normal = cross( subtractVectors(Triangles[i].P[1], Triangles[i].P[0]), subtractVectors(Triangles[i].P[2], Triangles[i].P[0]));
+                var Normal = cross( subtractVectors(Tris[i].P[1], Tris[i].P[0]), subtractVectors(Tris[i].P[2], Tris[i].P[0]));
                 Normal = normalize(Normal);
 
                 Data.normals.push(Normal[0]);

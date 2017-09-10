@@ -35,7 +35,7 @@ function RandomInt(min, max) {
 }
 
 function heightmap(){
-var type = $('#shape').value;
+var type = $('#shape').val();
 //var rng = RandomInt(-80000, 80000);
 
   for(x = 0; x < chunk_width; x++){
@@ -54,7 +54,7 @@ var type = $('#shape').value;
       	else if (type == "Torus")
         	voxels[x][y][z] = 1.0-(Math.pow(10.0 - Math.sqrt(_x*_x + _y*_y), 2) + _z*_z - size);
         else if (type == "Hyperelliptic")
-        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.0 ) - (size-4));
+        	voxels[x][y][z] = 1.0-(Math.pow( Math.pow(_x, 6) + Math.pow(_y, 6) + Math.pow(_z, 6), 1.0/6.5 ) - (size-6));
         else if (type == "Goursat's Surface")
         	voxels[x][y][z] = 1.0-(Math.pow(_x,4) + Math.pow(_y,4) + Math.pow(_z,4) - size * (_x*_x  + _y*_y + _z*_z) * 8 + 1.0);
         else if(type == "Eight Surface")
@@ -76,6 +76,7 @@ main();
 //
 // Start here
 //
+var uints_for_indices;
 function main() {
   const canvas = document.querySelector('#glcanvas');
   const gl = canvas.getContext('webgl');
@@ -84,6 +85,8 @@ function main() {
   canvas.onmousedown = handleMouseDown;
   document.onmouseup = handleMouseUp;
   document.onmousemove = handleMouseMove;
+  uints_for_indices = gl.getExtension("OES_element_index_uint");
+
   // If we don't have a GL context, give up now
 
   if (!gl) {
@@ -189,7 +192,7 @@ function initBuffers(gl) {
 
 var verts = [], norms = [];
 var result = new MData();
-var marchType = $("#isoMethod").value;
+var marchType = $("#isoMethod").val();
 for(x = 0; x < chunk_width-1; x++){
   for(y = 0; y < chunk_height-1; y++){
     for(z = 0; z < chunk_depth-1; z++){
@@ -243,7 +246,7 @@ for(x = 0; x < chunk_width-1; x++){
 }
 verts = result.vertices;
 norms = result.normals;
-
+console.log(verts);
 
 
   // Now pass the list of positions into WebGL to build the
@@ -293,9 +296,14 @@ for (var j = 0; j < verts.length / 3; j++) {
 vertCount = indices.length;
 
   // Now send the element array to GL
+var array;
+if(uints_for_indices != null)
+	array = new Uint32Array(indices);
+else
+	array = new Uint16Array(indices)
 
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-      new Uint16Array(indices), gl.STATIC_DRAW);
+       array, gl.STATIC_DRAW);
 
   return {
     position: positionBuffer,
@@ -353,7 +361,8 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
-  gl.disable(gl.CULL_FACE);
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.FRONT);
 
   // Clear the canvas before we start drawing on it.
 
@@ -469,7 +478,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
   {
 
-    const type = gl.UNSIGNED_SHORT;
+    const type = (uints_for_indices == null) ? gl.UNSIGNED_SHORT : gl.UNSIGNED_INT;
     const offset = 0;
     gl.drawElements(mode, vertCount, type, offset);
   }
