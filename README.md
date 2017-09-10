@@ -11,4 +11,4 @@ webGL demo for testing isosurface techniques and math surfaces
 
 ## license
 
-(c) 2017 MIT License. Zaphyk
+(c) 2017 MIT License. Maxi Levi
