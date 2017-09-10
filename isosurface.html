@@ -18,10 +18,11 @@
 
   <body>
   	<h2 class = "ui title">Isosurface Polygonizer Algorithms</h2>
-  	<select id="March" onchange="recreate();" class="ui march selectpicker" data-style="btn-default">
+  	<select id="isoMethod" onchange="recreate();" class="ui march selectpicker" data-style="btn-default">
   		<option value="Marching Cubes">Marching Cubes</option>
+  		<option value="Marching Tetrahedra">Marching Tetrahedra</option>
   	</select>
-  	<select id="Shape" onchange="recreate();" class="ui shape selectpicker" data-style="btn-default">
+  	<select id="shape" onchange="recreate();" class="ui shape selectpicker" data-style="btn-default">
   		<option value="Goursat's Surface">Goursat's Surface</option>
   		<option value="Eight Surface">Eight Surface</option>	
   		<option value="Torus">Torus</option>

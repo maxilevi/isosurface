@@ -35,7 +35,7 @@ function RandomInt(min, max) {
 }
 
 function heightmap(){
-var type = document.getElementById('Shape').value;
+var type = $('#shape').value;
 //var rng = RandomInt(-80000, 80000);
 
   for(x = 0; x < chunk_width; x++){
@@ -189,6 +189,7 @@ function initBuffers(gl) {
 
 var verts = [], norms = [];
 var result = new MData();
+var marchType = $("#isoMethod").value;
 for(x = 0; x < chunk_width-1; x++){
   for(y = 0; y < chunk_height-1; y++){
     for(z = 0; z < chunk_depth-1; z++){
@@ -233,8 +234,10 @@ for(x = 0; x < chunk_width-1; x++){
         for(k=0; k < cell.P.length; k++)
           cell.P[k] = [cell.P[k][0] , cell.P[k][1], cell.P[k][2] * 1 - chunk_width * .5];
 
-        
-        Process(0, cell, result);
+        if(marchType == "Marching Cubes")
+       		MarchCube(0, cell, result);
+       	else if(marchType == "Marching Tetrahedra")
+       		MarchTetrahedra(0, cell, result);
     }
   }  
 }
