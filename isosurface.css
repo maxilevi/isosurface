@@ -41,12 +41,12 @@
 	
 	.title{
 		font-size: 60px;
-		left:0vh;	
+		left:2.5vh;	
 	}
 	
 	.source{
 		font-size: 300px;
-		left:0vh;
+		left:20vh;
 		top:75vh;
 		text-align: center;
 		padding-bottom: 5px; 
@@ -58,11 +58,11 @@
 	.march{
 		top:65vh;
 		height:40px;
-		left: 22.5vh;
+		left: 35vh;
 	}
 	
 	.shape{
-		left: 0vh;
+		left: 12.5vh;
 		top:65vh;
 		font-size:40px;
 	}
