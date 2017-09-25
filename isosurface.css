@@ -15,8 +15,9 @@
 
 .title{
 	text-align: center;
-	left:33%;
+	left:62.5vh;
 	text-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
+	font-size: 35px;
 }
 
 .source{
@@ -26,9 +27,51 @@
 	text-align: center;
 	padding-bottom: 5px; 
 	border-radius: 75px;
-	width:145px;
-	height:145px;
+	width: 145px;
+	height: 145px;
 	box-shadow: 2px 4px 8px rgba(0, 0, 0, .5);
+}
+
+.render{
+	width:100%;
+	height:40%;	
+}
+
+@media only screen and (max-device-width: 768px) {
+	
+	.title{
+		font-size: 60px;
+		left:0vh;	
+	}
+	
+	.source{
+		font-size: 300px;
+		left:0vh;
+		top:75vh;
+		text-align: center;
+		padding-bottom: 5px; 
+		border-radius: 150px;
+		width: 295px;
+		height: 295px;
+	}
+	
+	.march{
+		top:65vh;
+		height:40px;
+		left: 22.5vh;
+	}
+	
+	.shape{
+		left: 0vh;
+		top:65vh;
+		font-size:40px;
+	}
+	
+	.render{
+		position:absolute;
+		top: 12.5vh;	
+	}
+	
 }
 
 

@@ -17,24 +17,29 @@
   </head>
 
   <body>
-  	<h2 class = "ui title">Isosurface Polygonizer Algorithms</h2>
-  	<select id="isoMethod" onchange="recreate();" class="ui march selectpicker" data-style="btn-default">
-  		<option value="Marching Cubes">Marching Cubes</option>
-  		<option value="Marching Tetrahedra">Marching Tetrahedra</option>
-  	</select>
-  	<select id="shape" onchange="recreate();" class="ui shape selectpicker" data-style="btn-default">
-  		<option value="Goursat's Surface">Goursat's Surface</option>
-  		<option value="Eight Surface">Eight Surface</option>	
-  		<option value="Torus">Torus</option>
-  		<option value="Hyperelliptic">Hyperelliptic</option>
-  		<option value="Sphere">Sphere</option>
-  	</select>
-  	<a href="https://github.com/Zaphyk/isosurface" target="_blank">
-	  	<i class="ui source fa fa-github" aria-hidden="true"></i>
-  	</a>
-
-    <canvas id="glcanvas" style="width:100%;height:40%;" ></canvas>
-
+ 	 <div class="d-flex justify-content-center">
+      <br>
+    
+        <span class = " ui title">Isosurface Polygonizer Algorithms</span>
+    
+        <select id="isoMethod" onchange="recreate();" class="ui march selectpicker" data-style="btn-default">
+            <option value="Marching Cubes">Marching Cubes</option>
+            <option value="Marching Tetrahedra">Marching Tetrahedra</option>
+        </select>
+        <select id="shape" onchange="recreate();" class="ui shape selectpicker" data-style="btn-default">
+            <option value="Goursat's Surface">Goursat's Surface</option>
+            <option value="Eight Surface">Eight Surface</option>	
+            <option value="Torus">Torus</option>
+            <option value="Hyperelliptic">Hyperelliptic</option>
+            <option value="Sphere">Sphere</option>
+        </select>
+        <center>
+        <a href="https://github.com/Zaphyk/isosurface" target="_blank">
+            <i class="ui source fa fa-github" aria-hidden="true"></i>
+        </a>
+    </center>
+        <canvas id="glcanvas" class="render" ></canvas>
+    </div>
   </body>
 
 

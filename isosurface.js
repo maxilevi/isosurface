@@ -434,7 +434,6 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
                  modelViewMatrix,   
                  [-chunk_width * .5, -chunk_height * .5, -chunk_depth * .0]);
 
-  
 
   
 
