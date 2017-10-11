@@ -4,12 +4,20 @@
     
     function MarchTetrahedra(IsoLevel, Cell, Data)
     {
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,3,7));
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,2,7));
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,4,6,7));
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,2));
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,1,6,4));
-        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,5,6,1,4));
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,3,7), false);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,6,7), false);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,4,6,7), false);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,2), false);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,4), false);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,5,6,1,4), false);
+		
+
+		BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,3,7), true);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,2,6,7), true);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,4,6,7), true);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,2), true);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,0,6,1,4), true);
+        BuildHedra(Data, PolygoniseTri(Cell,IsoLevel,5,6,1,4), true);
         return Data;
     }
     
@@ -101,7 +109,7 @@
     }
 
 
-    function BuildHedra(Data, Tris)
+    function BuildHedra(Data, Tris, Flip)
     {	//Add all the indices and the vertices.
 
         	for (i = 0; i < Tris.length; i++)
@@ -110,33 +118,57 @@
                 && Tris[i].P[1][0] == 0 && Tris[i].P[1][1] == 0 && Tris[i].P[1][2] == 0
                 && Tris[i].P[2][0] == 0 && Tris[i].P[2][1] == 0 && Tris[i].P[2][2] == 0) continue;
 
-            	Data.vertices.push(Tris[i].P[2][0]);
-                Data.vertices.push(Tris[i].P[2][1]);
-                Data.vertices.push(Tris[i].P[2][2]);
-
-            	Data.vertices.push(Tris[i].P[1][0]);
-                Data.vertices.push(Tris[i].P[1][1]);
-                Data.vertices.push(Tris[i].P[1][2]);
-
-            	Data.vertices.push(Tris[i].P[0][0]);
-                Data.vertices.push(Tris[i].P[0][1]);
-                Data.vertices.push(Tris[i].P[0][2]);
                
-                var Normal = cross( subtractVectors(Tris[i].P[1], Tris[i].P[0]), subtractVectors(Tris[i].P[2], Tris[i].P[0]));
+                var Normal;
+				if(!Flip){
+				Normal = cross( subtractVectors(Tris[i].P[1], Tris[i].P[0]), subtractVectors(Tris[i].P[2], Tris[i].P[0]));
                 Normal = normalize(Normal);
+				}else{
+					Normal = normalize(cross( subtractVectors(Tris[i].P[1], Tris[i].P[2]), subtractVectors(Tris[i].P[0], Tris[i].P[2])));	
+				}
+	
+				
+				if(Flip){
+					Data.vertices.push(Tris[i].P[0][0]);
+					Data.vertices.push(Tris[i].P[0][1]);
+					Data.vertices.push(Tris[i].P[0][2]);
+	
+					Data.vertices.push(Tris[i].P[1][0]);
+					Data.vertices.push(Tris[i].P[1][1]);
+					Data.vertices.push(Tris[i].P[1][2]);
+	
+					Data.vertices.push(Tris[i].P[2][0]);
+					Data.vertices.push(Tris[i].P[2][1]);
+					Data.vertices.push(Tris[i].P[2][2]);
+					
+				}else{
+					Data.vertices.push(Tris[i].P[2][0]);
+					Data.vertices.push(Tris[i].P[2][1]);
+					Data.vertices.push(Tris[i].P[2][2]);
+	
+					Data.vertices.push(Tris[i].P[1][0]);
+					Data.vertices.push(Tris[i].P[1][1]);
+					Data.vertices.push(Tris[i].P[1][2]);
+	
+					Data.vertices.push(Tris[i].P[0][0]);
+					Data.vertices.push(Tris[i].P[0][1]);
+					Data.vertices.push(Tris[i].P[0][2]);
 
-                Data.normals.push(Normal[0]);
-                Data.normals.push(Normal[1]);
-                Data.normals.push(Normal[2]);
+				}
+				
+				
+				Data.normals.push(Normal[0]);
+				Data.normals.push(Normal[1]);
+				Data.normals.push(Normal[2]);
+	
+				Data.normals.push(Normal[0]);
+				Data.normals.push(Normal[1]);
+				Data.normals.push(Normal[2]);
+	
+				Data.normals.push(Normal[0]);
+				Data.normals.push(Normal[1]);
+				Data.normals.push(Normal[2]);
 
-                Data.normals.push(Normal[0]);
-                Data.normals.push(Normal[1]);
-                Data.normals.push(Normal[2]);
-
-                Data.normals.push(Normal[0]);
-                Data.normals.push(Normal[1]);
-                Data.normals.push(Normal[2]);
-                
             }
             //console.log(Data);
         return Data;
